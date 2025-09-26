@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phân Tích Biến Động Đơn Hàng</title>
+    <style>
+        body { font-family: sans-serif; max-width: 1200px; margin: 20px auto; display: flex; gap: 20px; }
+        .main-content { flex-grow: 1; }
+        .sidebar { width: 200px; flex-shrink: 0; border-right: 1px solid #ccc; padding-right: 20px; }
+        h1, h3 { text-align: center; }
+        .upload-section { text-align: center; margin: 20px 0; padding: 15px; background-color: #f7f7f7; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .comparison-section { margin-top: 30px; }
+        
+        .row-increase { background-color: #ffebee !important; } /* Tăng */
+        .row-decrease { background-color: #e3f2fd !important; } /* Giảm */
+        .row-new { background-color: #e8f5e9 !important; }     /* Mới */
+        .row-removed { background-color: #fbe9e7 !important; } /* Không đặt */
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        
+        #history-list { list-style-type: none; padding: 0; }
+        #history-list li { padding: 8px; margin-bottom: 5px; background-color: #efefef; border-radius: 4px; text-align: center; }
+        .error-message { color: red; font-weight: bold; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h3>Lịch sử Hóa đơn</h3>
+        <ul id="history-list">
+            <li>Chưa có dữ liệu</li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>Hệ thống Phân tích Biến động Đơn hàng</h1>
+        <div class="upload-section">
+            <p>Chọn file PDF hóa đơn để phân tích:</p>
+            <input type="file" id="pdf-file" accept=".pdf">
+            <button id="analyze-button">Phân Tích</button>
+            <div id="status" style="margin-top: 10px;"></div>
+        </div>
+        
+        <div id="analysis-results">
+            <div class="comparison-section">
+                <h3 id="last-order-title">So sánh với Đơn hàng Gần Nhất</h3>
+                <table id="comparison-last-order-table">
+                    <thead>
+                        <tr>
+                            <th>Mã SP</th>
+                            <th>Mô tả</th>
+                            <!-- ĐÃ HOÁN ĐỔI VỊ TRÍ HAI CỘT NÀY -->
+                            <th>Số Lượng Lần Trước</th>
+                            <th>Số Lượng Hôm Nay</th>
+                            <!-- KẾT THÚC HOÁN ĐỔI -->
+                            <th>Chênh Lệch</th>
+                            <th>Kết Luận</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="comparison-section">
+                <h3 id="last-week-title">So sánh với Cùng Ngày Tuần Trước</h3>
+                <table id="comparison-last-week-table">
+                    <thead>
+                        <tr>
+                            <th>Mã SP</th>
+                            <th>Mô tả</th>
+                            <th>SL Tuần Trước</th>
+                            <th>Số Lượng Hôm Nay</th>
+                            <th>Chênh Lệch</th>
+                            <th>Kết Luận</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <script>
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js`;
+    </script>
+    <script src="script.js"></script>
+
+</body>
+</html>
